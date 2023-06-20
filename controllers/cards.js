@@ -61,7 +61,7 @@ const deleteCard = (req, res) => {
       res.status(200).send({ message: 'Картинка удалена' });
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: 'Internal Server Error',
         err: err.message,
         stack: err.stack,
@@ -83,7 +83,7 @@ const likeCard = (req, res) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: 'Internal Server Error',
         err: err.message,
         stack: err.stack,
@@ -105,7 +105,7 @@ const dislikeCard = (req, res) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: 'Internal Server Error',
         err: err.message,
         stack: err.stack,
