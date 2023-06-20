@@ -28,11 +28,15 @@ const getUserById = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      res.status(400).send({
-        message: 'Internal Server Error',
-        err: err.message,
-        stack: err.stack,
-      });
+      if (err.name === 'CastError') {
+      res.status(400).send({ message: 'Передан некорретный Id' });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
@@ -40,7 +44,7 @@ const createUser = (req, res) => {
   usersModel
     .create(req.body)
     .then((user) => {
-      res.status(200).send(user);
+      res.status(201).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
