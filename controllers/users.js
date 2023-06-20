@@ -29,7 +29,7 @@ const getUserById = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-      res.status(400).send({ message: 'Передан некорретный Id' });
+        res.status(400).send({ message: 'Передан некорретный Id' });
       } else {
         res.status(500).send({
           message: 'Internal Server Error',

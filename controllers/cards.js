@@ -63,13 +63,13 @@ const deleteCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(400).send({ message: 'Передан некорретный Id' });
-        } else {
-          res.status(500).send({
-            message: 'Internal Server Error',
-            err: err.message,
-            stack: err.stack,
-          });
-        }
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
@@ -89,13 +89,13 @@ const likeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(400).send({ message: 'Передан некорретный Id' });
-        } else {
-          res.status(500).send({
-            message: 'Internal Server Error',
-            err: err.message,
-            stack: err.stack,
-          });
-        }
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
@@ -115,13 +115,13 @@ const dislikeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(400).send({ message: 'Передан некорретный Id' });
-        } else {
-          res.status(500).send({
-            message: 'Internal Server Error',
-            err: err.message,
-            stack: err.stack,
-          });
-        }
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
