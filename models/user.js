@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+    minlength: 2,
+    maxlength: 30,
     required: true,
-    minlenght: 2,
-    maxlenght: 30,
   },
   about: {
     type: String,
+    minlength: 2,
+    maxlength: 30,
     required: true,
-    minlenght: 2,
-    maxlenght: 30,
   },
   avatar: {
     type: String,
