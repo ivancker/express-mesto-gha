@@ -7,7 +7,7 @@ const getCards = (req, res) => {
       if (!cards) {
         res.status(404).send({ message: 'Картинки не найдены' });
       }
-      res.status(201).send(cards);
+      res.status(200).send(cards);
     })
     .catch((err) => {
       res.status(500).send({
@@ -32,7 +32,7 @@ const createCard = (req, res) => {
       createdAt,
     })
     .then((card) => {
-      res.status(201).send(card);
+      res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -58,7 +58,7 @@ const deleteCard = (req, res) => {
       if (!card) {
         res.status(404).send({ message: 'Картинка не найдена' });
       }
-      res.status(201).send({ message: 'Картинка удалена' });
+      res.status(200).send({ message: 'Картинка удалена' });
     })
     .catch((err) => {
       res.status(500).send({
@@ -80,7 +80,7 @@ const likeCard = (req, res) => {
       if (!card) {
         res.status(404).send({ message: 'Картинка не найдена' });
       }
-      res.status(201).send(card);
+      res.status(200).send(card);
     })
     .catch((err) => {
       res.status(500).send({

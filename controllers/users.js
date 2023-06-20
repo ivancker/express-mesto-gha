@@ -40,7 +40,7 @@ const createUser = (req, res) => {
   usersModel
     .create(req.body)
     .then((user) => {
-      res.status(201).send(user);
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -68,7 +68,7 @@ const updateProfile = (req, res) => {
       upsert: false,
     })
     .then((user) => {
-      res.status(201).send(user);
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -94,7 +94,7 @@ const updateAvatar = (req, res) => {
       new: true,
     })
     .then((user) => {
-      res.status(201).send(user);
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
