@@ -4,6 +4,9 @@ const getUsers = (req, res) => {
   usersModel
     .find({})
     .then((users) => {
+      if (!users) {
+        res.send({ message: 'Пользователи не найдены' });
+      }
       res.send(users);
     })
     .catch((err) => {
@@ -19,6 +22,9 @@ const getUserById = (req, res) => {
   usersModel
     .findById(req.params.userId)
     .then((user) => {
+      if (!user) {
+        res.send({ message: 'Пользователь не найден' });
+      }
       res.send(user);
     })
     .catch((err) => {
@@ -37,11 +43,19 @@ const createUser = (req, res) => {
       res.status(201).send(user);
     })
     .catch((err) => {
-      res.status(500).send({
-        message: 'Internal Server Error',
-        err: err.message,
-        stack: err.stack,
-      });
+      if (err.name === 'ValidationError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные при создании пользователя',
+          err: err.message,
+          stack: err.stack,
+        });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
@@ -57,11 +71,19 @@ const updateProfile = (req, res) => {
       res.status(201).send(user);
     })
     .catch((err) => {
-      res.status(500).send({
-        message: 'Internal Server Error',
-        err: err.message,
-        stack: err.stack,
-      });
+      if (err.name === 'ValidationError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные при обновлении профиля',
+          err: err.message,
+          stack: err.stack,
+        });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 
@@ -75,11 +97,19 @@ const updateAvatar = (req, res) => {
       res.status(201).send(user);
     })
     .catch((err) => {
-      res.status(500).send({
-        message: 'Internal Server Error',
-        err: err.message,
-        stack: err.stack,
-      });
+      if (err.name === 'ValidationError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные при обновлении аватара',
+          err: err.message,
+          stack: err.stack,
+        });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
     });
 };
 

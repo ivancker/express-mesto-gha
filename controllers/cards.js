@@ -4,6 +4,9 @@ const getCards = (req, res) => {
   cardsModel
     .find({})
     .then((cards) => {
+      if (!cards) {
+        res.send({ message: 'Картинки не найдены' });
+      }
       res.status(201).send(cards);
     })
     .catch((err) => {
@@ -16,9 +19,67 @@ const getCards = (req, res) => {
 };
 
 const createCard = (req, res) => {
+  const { name, link } = req.body;
+  const owner = req.user._id;
+  const likes = [];
+  const createdAt = Date().now;
   cardsModel
-    .create(req.body)
+    .create({
+      name,
+      link,
+      owner,
+      likes,
+      createdAt,
+    })
     .then((card) => {
+      res.status(201).send(card);
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные при создании карточки',
+          err: err.message,
+          stack: err.stack,
+        });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
+    });
+};
+
+const deleteCard = (req, res) => {
+  cardsModel
+    .findByIdAndRemove(req.params.cardId)
+    .then((card) => {
+      if (!card) {
+        res.send({ message: 'Картинка не найдена' });
+      }
+      res.status(201).send({ message: 'Картинка удалена' });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Internal Server Error',
+        err: err.message,
+        stack: err.stack,
+      });
+    });
+};
+
+const likeCard = (req, res) => {
+  cardsModel
+    .findByIdAndUpdate(
+      req.params.cardId,
+      { $addToSet: { likes: req.user._id } },
+      { new: true },
+    )
+    .then((card) => {
+      if (!card) {
+        res.send({ message: 'Картинка не найдена' });
+      }
       res.status(201).send(card);
     })
     .catch((err) => {
@@ -30,11 +91,18 @@ const createCard = (req, res) => {
     });
 };
 
-const deleteCard = (req, res) => {
+const dislikeCard = (req, res) => {
   cardsModel
-    .findByIdAndRemove(req.params.cardId)
+    .findByIdAndUpdate(
+      req.params.cardId,
+      { $pull: { likes: req.user._id } },
+      { new: true },
+    )
     .then((card) => {
-      res.status(201).send(card);
+      if (!card) {
+        res.send({ message: 'Картинка не найдена' });
+      }
+      res.status(200).send(card);
     })
     .catch((err) => {
       res.status(500).send({
