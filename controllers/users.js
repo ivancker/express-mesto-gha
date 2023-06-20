@@ -5,7 +5,7 @@ const getUsers = (req, res) => {
     .find({})
     .then((users) => {
       if (!users) {
-        res.send({ message: 'Пользователи не найдены' });
+        res.status(404).send({ message: 'Пользователи не найдены' });
       }
       res.send(users);
     })
@@ -23,7 +23,7 @@ const getUserById = (req, res) => {
     .findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        res.send({ message: 'Пользователь не найден' });
+        res.status(404).send({ message: 'Пользователь не найден' });
       }
       res.send(user);
     })

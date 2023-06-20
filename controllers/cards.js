@@ -5,7 +5,7 @@ const getCards = (req, res) => {
     .find({})
     .then((cards) => {
       if (!cards) {
-        res.send({ message: 'Картинки не найдены' });
+        res.status(404).send({ message: 'Картинки не найдены' });
       }
       res.status(201).send(cards);
     })
@@ -56,7 +56,7 @@ const deleteCard = (req, res) => {
     .findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        res.send({ message: 'Картинка не найдена' });
+        res.status(404).send({ message: 'Картинка не найдена' });
       }
       res.status(201).send({ message: 'Картинка удалена' });
     })
@@ -78,7 +78,7 @@ const likeCard = (req, res) => {
     )
     .then((card) => {
       if (!card) {
-        res.send({ message: 'Картинка не найдена' });
+        res.status(404).send({ message: 'Картинка не найдена' });
       }
       res.status(201).send(card);
     })
@@ -100,7 +100,7 @@ const dislikeCard = (req, res) => {
     )
     .then((card) => {
       if (!card) {
-        res.send({ message: 'Картинка не найдена' });
+        res.status(404).send({ message: 'Картинка не найдена' });
       }
       res.status(200).send(card);
     })
