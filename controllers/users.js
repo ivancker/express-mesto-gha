@@ -48,7 +48,6 @@ const createUser = (req, res, next) => {
     password,
   } = req.body;
   bcrypt.hash(password, SALT_ROUNDS).then((hash) => {
-    console.log('hash: ', hash);
     usersModel
       .create({
         name,
@@ -80,14 +79,8 @@ const loginUser = (req, res, next) => {
     .orFail(() => {
       throw new UnauthorizedError('UnautorizedError');
     })
-    .then((user) => {
-      console.log(user);
-
-      return Promise.all([user, bcrypt.compare(password, user.password)]);
-    })
+    .then((user) => Promise.all([user, bcrypt.compare(password, user.password)]))
     .then(([user, isEqual]) => {
-      console.log('isEqual: ', isEqual);
-
       if (!isEqual) {
         throw new UnauthorizedError('Пользователь или пароль неверный');
       }
