@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 const bodyParser = require('body-parser'); // без этого пост не работает
 const routers = require('./routes');
 
@@ -9,13 +10,8 @@ const app = express();
 
 app.use(bodyParser.json()); // подключение body-parser к app
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '648f66c2fda1ea6e76d87aca',
-  };
-
-  next();
-});
+app.use(routers);
+app.use(errors());
 
 app.use(routers);
 
