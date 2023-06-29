@@ -51,7 +51,7 @@ const deleteCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Вы не владелец карточки');
       }
-      res.send(card);
+      res.status(200).send({ message: 'Картинка удалена' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
