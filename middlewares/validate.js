@@ -4,7 +4,7 @@ const {
 } = require('celebrate');
 
 const emailRegex = /^(.+)@(.+)$/;
-const urlRegex = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$/;
+const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 
 const validateSignUp = celebrate({
   body: Joi.object().keys({
