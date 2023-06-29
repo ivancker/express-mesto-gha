@@ -9,7 +9,7 @@ const SALT_ROUNDS = 10;
 const NotFoundError = require('../errors/notFoundError'); // 404
 const BadRequestError = require('../errors/badRequestError'); // 400
 const ConflictError = require('../errors/conflictError'); // 409
-const UnauthorizedError = require('../errors/conflictError'); // 401
+const UnauthorizedError = require('../errors/unauthorizedError'); // 401
 
 const getUsers = (req, res, next) => {
   usersModel

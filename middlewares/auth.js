@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { checkToken } = require('../utils/jwtAuth');
 
-const UnauthorizedError = require('../errors/conflictError'); // 401
+const UnauthorizedError = require('../errors/unauthorizedError'); // 401
 
 const auth = (req, res, next) => {
   if (!req.headers.authorization) {
