@@ -34,7 +34,7 @@ const getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Передан некорретный Id'));
+        next(new BadRequestError('Передан некорректный Id'));
       } else next(err);
     });
 };
@@ -66,9 +66,8 @@ const createUser = (req, res, next) => {
         });
       })
       .catch((err) => {
-        if (err.code === MONGO_DUPLICATE_KEY_ERROR) {
-          next(new ConflictError('Пользователь уже существует'));
-        } else next(err);
+        if (err.code === MONGO_DUPLICATE_KEY_ERROR) next(new ConflictError('Пользователь уже существует'));
+        else next(err);
       });
   });
 };
@@ -79,7 +78,7 @@ const loginUser = (req, res, next) => {
     .findOne({ email })
     .select('+password')
     .orFail(() => {
-      throw new Error('UnautorizedError');
+      throw new UnauthorizedError('UnautorizedError');
     })
     .then((user) => {
       console.log(user);
