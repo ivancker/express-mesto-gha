@@ -137,6 +137,18 @@ const updateAvatar = (req, res, next) => {
     });
 };
 
+const getUserInfo = (req, res, next) => {
+  usersModel
+    .findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь не найден');
+      }
+      res.send(user);
+    })
+    .catch((err) => next(err));
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -144,4 +156,5 @@ module.exports = {
   loginUser,
   updateProfile,
   updateAvatar,
+  getUserInfo,
 };

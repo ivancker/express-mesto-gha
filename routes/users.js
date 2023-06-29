@@ -3,6 +3,7 @@ const usersController = require('../controllers/users');
 const { validateGetUserById, validateUpdateProfile, validateUpdateAvatar } = require('../middlewares/validate');
 
 routerUser.get('/', usersController.getUsers);
+routerUser.get('/me', usersController.getUserInfo);
 routerUser.get('/:userId', validateGetUserById, usersController.getUserById);
 routerUser.post('/', usersController.createUser);
 
