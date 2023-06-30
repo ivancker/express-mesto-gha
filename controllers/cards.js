@@ -8,9 +8,6 @@ const getCards = (req, res, next) => {
   cardsModel
     .find({})
     .then((cards) => {
-      if (!cards) {
-        throw new NotFoundError('Карточки не найдены');
-      }
       res.status(200).send(cards);
     })
     .catch((err) => {

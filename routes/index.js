@@ -12,7 +12,7 @@ router.post('/signin', validateSignIn, usersController.loginUser);
 router.use('/users', auth, userRouter);
 router.use('/cards', auth, cardRouter);
 
-router.use(() => {
+router.use(auth, () => {
   throw new NotFoundError('Такая страница не существует');
 });
 

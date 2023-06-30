@@ -15,12 +15,9 @@ const getUsers = (req, res, next) => {
   usersModel
     .find({})
     .then((users) => {
-      if (!users) {
-        throw new NotFoundError('Пользователи не найдены');
-      }
       res.send(users);
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 const getUserById = (req, res, next) => {
@@ -47,28 +44,34 @@ const createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-  bcrypt.hash(password, SALT_ROUNDS).then((hash) => {
-    usersModel
-      .create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-      .then(() => {
-        res.status(201).send({
+  bcrypt
+    .hash(password, SALT_ROUNDS)
+    .then((hash) => {
+      usersModel
+        .create({
           name,
           about,
           avatar,
           email,
+          password: hash,
+        })
+        .then(() => {
+          res.status(201).send({
+            name,
+            about,
+            avatar,
+            email,
+          });
+        })
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            next(new NotFoundError('Некорректные данные при создании пользователя'));
+          }
+          if (err.code === MONGO_DUPLICATE_KEY_ERROR) next(new ConflictError('Пользователь уже существует'));
+          else next(err);
         });
-      })
-      .catch((err) => {
-        if (err.code === MONGO_DUPLICATE_KEY_ERROR) next(new ConflictError('Пользователь уже существует'));
-        else next(err);
-      });
-  });
+    })
+    .catch(next);
 };
 
 const loginUser = (req, res, next) => {
@@ -119,6 +122,7 @@ const updateAvatar = (req, res, next) => {
   usersModel
     .findByIdAndUpdate(req.user._id, newUserAvatar, {
       new: true,
+      runValidators: true,
     })
     .then((user) => {
       res.status(200).send(user);
